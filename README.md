@@ -1,2 +1,42 @@
 # viabtc_scheduled
 viabtc btc bcc 定投脚本
+
+下载脚本
+git clone https://github.com/ankye/viabtc_scheduled
+
+安装步骤
+
+1. 去viabtc申请apikey
+https://www.viabtc.com/apikey
+
+修改viabtc_scheduled.py的config部分
+#===========================================================
+#config start
+#viabtc api
+const.ACCESS_ID = "YOUR_ACCESS_ID"
+const.SECRET_KEY = "YOUR_SECRET_KEY"
+#定投金额
+# BTCCNY和BCCCNY 单位 CNY
+# BCCBTC        单位 BTC
+# 
+const.ORDER_AMOUNT = 30
+#定投类型
+const.ORDER_MARKET = const.BCCCNY
+#账户限额
+# BTCCNY和BCCCNY  CNY账户
+# BCCBTC          BTC账户
+const.ACCOUNT_LIMIT = 1500
+#定投间隔,单位秒, 
+# 每分钟=60 每小时= 60*60  每天=24*60*60 每周=7*24*60*60 
+const.ORDER_TIME_INTERVAL = 30
+
+#config end
+#==============================================================
+
+测试运行
+python viabtc_scheduled.py
+
+Linux或者Macos运行日志查看 tail -f viabtc_scheduled.txt
+
+后台运行在Linux和Macos
+nohup python viabtc_scheduled.py &
