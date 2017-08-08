@@ -27,7 +27,7 @@ const.SECRET_KEY = "YOUR_SECRET_KEY"
 # BCCBTC        单位 BTC
 # 
 const.ORDER_AMOUNT = 30
-#定投类型
+#定投类型  const.BTCCNY const.BCCCNY  const.BCCBTC
 const.ORDER_MARKET = const.BCCCNY
 #账户限额,保留一部分钱，账户达到最低限额就停止定投
 # BTCCNY和BCCCNY  CNY账户
