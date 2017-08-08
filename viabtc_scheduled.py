@@ -35,8 +35,11 @@ const.ORDER_MARKET = const.BCCCNY
 const.ACCOUNT_LIMIT = 1500
 #定投间隔,单位秒, 
 # 每分钟=60 每小时= 60*60  每天=24*60*60 每周=7*24*60*60 
-const.ORDER_TIME_INTERVAL = 30
-
+const.ORDER_TIME_INTERVAL = 3
+#最大交易价格，超过价格就跳过
+#BTCCNY和BCCCNY  CNY
+#BCCBTC  比值
+const.MAX_ORDER_PRICE = 1000
 #config end
 #==============================================================
 
@@ -195,16 +198,34 @@ logger = logging.getLogger('viabtc')    # 获取名为viabtc的logger
 logger.addHandler(handler)           # 为logger添加handler  
 logger.setLevel(logging.DEBUG)  
 
+def check_price():
+    data = market_ticker(const.ORDER_MARKET)
+    if data and data['code'] == 0 :
+        current_price = data['data']['ticker']['sell']
+    
+        if current_price > const.MAX_ORDER_PRICE:
+            
+            return False
+        else:
+            return True
+    return False
 #定投策略
 def do_strategy():
     if check_balance() :
-        logger.info("Account Balance CNY [%.2f] BTC [%.2f] BCC [%.2f] ",Account['CNY'],Account['BTC'],Account['BCC'])
-        logger.info("Market %s start Order [%s] ", const.ORDER_MARKET,const.ORDER_AMOUNT)
-        result = trade_market_order(const.ORDER_MARKET,const.ORDER_TYPE_BUY,const.ORDER_AMOUNT)    
-        if result and result['code'] == 0 :
-            logger.info("Market %s order success amount [%s] avg_price [%s]", const.ORDER_MARKET,const.ORDER_AMOUNT,result['data']['avg_price'])
+        if check_price():
+            logger.info("Account Balance CNY [%.2f] BTC [%.2f] BCC [%.2f] ",Account['CNY'],Account['BTC'],Account['BCC'])
+            logger.info("Market %s start Order [%s] ", const.ORDER_MARKET,const.ORDER_AMOUNT)
+            result = {'code':0}# trade_market_order(const.ORDER_MARKET,const.ORDER_TYPE_BUY,const.ORDER_AMOUNT)    
+            if result and result['code'] == 0 :
+                logger.info("Market %s order success amount [%s] avg_price [%s]", const.ORDER_MARKET,const.ORDER_AMOUNT,result['data']['avg_price'])
+            else:
+                logger.error("Market %s order amount [%s] failed", const.ORDER_MARKET,const.ORDER_AMOUNT)
         else:
-            logger.error("Market %s order amount [%s] failed", const.ORDER_MARKET,const.ORDER_AMOUNT)
+            logger.info("price limit [%s]",const.MAX_ORDER_PRICE)
+    else:
+        logger.info("balance limit [%s]",const.ACCOUNT_LIMIT)
+
+
 while 1:
-    do_strategy()
-    time.sleep(const.ORDER_TIME_INTERVAL)
+   do_strategy()
+   time.sleep(const.ORDER_TIME_INTERVAL)

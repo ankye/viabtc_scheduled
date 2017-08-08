@@ -33,6 +33,10 @@ const.ACCOUNT_LIMIT = 1500
 #定投间隔,单位秒, 
 # 每分钟=60 每小时= 60*60  每天=24*60*60 每周=7*24*60*60 
 const.ORDER_TIME_INTERVAL = 30
+#最大交易价格，超过价格就跳过
+#BTCCNY和BCCCNY  CNY
+#BCCBTC  比值
+const.MAX_ORDER_PRICE = 1000
 
 #config end
 #==============================================================
