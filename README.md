@@ -1,15 +1,19 @@
+
 # viabtc_scheduled
 viabtc btc bcc 定投脚本
 
 下载脚本
+```
 git clone https://github.com/ankye/viabtc_scheduled
-
+```
 安装步骤
 
 1. 去viabtc申请apikey
+```
 https://www.viabtc.com/apikey
-
+```
 修改viabtc_scheduled.py的config部分
+```python
 #===========================================================
 #config start
 #viabtc api
@@ -32,11 +36,16 @@ const.ORDER_TIME_INTERVAL = 30
 
 #config end
 #==============================================================
-
+```
 测试运行
+```
 python viabtc_scheduled.py
-
-Linux或者Macos运行日志查看 tail -f viabtc_scheduled.txt
-
+```
+Linux或者Macos运行日志查看 
+```
+tail -f viabtc_scheduled.txt
+```
 后台运行在Linux和Macos
+```
 nohup python viabtc_scheduled.py &
+```
