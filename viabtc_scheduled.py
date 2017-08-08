@@ -170,7 +170,9 @@ def check_balance():
         Account['CNY'] = float_decimal(data['data']['CNY']['available'],2)
         Account['BTC'] = float_decimal(data['data']['BTC']['available'],2)
         Account['BCC'] = float_decimal(data['data']['BCC']['available'],2)
-    
+    else:
+        print data['message']
+        return False
     if const.ORDER_MARKET == const.BTCCNY or const.ORDER_MARKET == const.BCCCNY :
         if Account['CNY'] <= const.ACCOUNT_LIMIT :
             return False
